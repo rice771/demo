@@ -1,0 +1,48 @@
+package com.rice.wx.service;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.rice.wx.common.BaseService;
+import com.rice.wx.entity.origin.UserInfo;
+import com.rice.wx.entity.dto.${entity}Dto;
+import com.rice.wx.entity.origin.${entity};
+import com.rice.wx.entity.param.${entity}Param;
+import com.rice.wx.entity.vo.${entity}Vo;
+import com.rice.wx.mapper.${entity}Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+/**
+ * @ $!{table.comment} 业务接口类
+ * @ author ${author}
+ * @ date ${date}
+ **/
+@Service
+public Interface ${entity}Service {
+
+    @Autowired
+    private ${entity}Mapper ${table.name}Mapper;
+
+
+    public Page<${entity}Vo> page(${entity}Param param) {
+        Page<${entity}Vo> voList = ${table.name}Mapper.getPageList(param);
+        return voList;
+    }
+
+    public ${entity}Vo findOne(Long id) {
+        ${entity}Vo vo = ${table.name}Mapper.getInfoById(id);
+        return vo;
+    }
+
+    public boolean delete(Long id) {
+        int count = ${table.name}Mapper.deleteById(id);
+        return count > 0;
+    }
+
+    public boolean saveOrUpdate(${entity}Dto dto, UserInfo currentSysUser) {
+        ${entity} origin = new ${entity}();
+        return saveOrUpdate(origin, dto, currentSysUser, ${table.name}Mapper);
+    }
+
+
+
+}

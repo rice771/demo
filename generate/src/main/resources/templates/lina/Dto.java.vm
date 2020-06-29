@@ -1,0 +1,65 @@
+#set($dto = $!{package.Entity})
+#set($dto=$dto.replace("entity","dto"))
+package ${package.Entity}.dto;
+
+#foreach($pkg in ${table.importPackages})
+#if("${pkg}" == "java.math.BigDecimal")
+import ${pkg};
+#break
+#end
+#end
+import com.rice.wx.common.BaseDto;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+
+/**
+ * @ $!{table.comment} 传输对象
+ * @ author ${author}
+ * @ date ${date}
+ **/
+#if(${entityLombokModel})
+@Data
+#if(${superEntityClass})
+@EqualsAndHashCode(callSuper = true)
+#else
+@EqualsAndHashCode(callSuper = false)
+#end
+@Accessors(chain = true)
+#end
+#if(${swagger2})
+@ApiModel(value="${entity}Dto", description="$!{table.comment}")
+#end
+public class ${entity}Dto extends BaseDto {
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
+#if("$!field.propertyName" != "id" && "$!field.propertyName" != "createTime" && "$!field.propertyName" != "createUser" && "$!field.propertyName" != "updateTime" && "$!field.propertyName" != "updateUser" && "$!field.propertyName" != "deleted")
+#if(${field.keyFlag})
+#set($keyPropertyName=${field.propertyName})
+#end
+#if("$!field.comment" != "")
+
+#set($comment=${field.comment})
+###if($field.customMap.get("EMPTY")==0)
+###if($field.propertyType == "String")
+##    @NotBlank("$!{comment}不能为空}")
+###else
+##    @NotNull("$!{comment}不能为空}")
+###end
+###end
+#if(${swagger2})
+    @ApiModelProperty(value = "$!comment")
+#else
+    /**
+     * $!comment
+     */
+#end
+#end
+    private ${field.propertyType} ${field.propertyName};
+#end
+#end
+## ----------  END 字段循环遍历  ----------
+
+}

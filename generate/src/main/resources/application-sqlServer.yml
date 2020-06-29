@@ -1,0 +1,6 @@
+datasource:
+  dbType: sqlserver
+  driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  url: jdbc:sqlserver://localhost:8120;DatabaseName=environment_quality;useLOBs=false
+  username: sa
+  password: sa1234

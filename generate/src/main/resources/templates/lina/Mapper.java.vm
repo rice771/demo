@@ -1,0 +1,23 @@
+package $!{package.Mapper};
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.stereotype.Repository;
+
+import com.rice.wx.entity.origin.${entity};
+import com.rice.wx.entity.vo.${entity}Vo;
+import com.rice.wx.entity.param.${entity}Param;
+
+/**
+ * @ $!{table.comment} Mapper接口
+ * @ author ${author}
+ * @ date ${date}
+ **/
+@Repository
+public interface ${entity}Mapper extends BaseMapper<${entity}> {
+
+    Page<${entity}Vo> listPage(${entity}Param param);
+
+    ${entity}Vo getInfoById(Long id);
+
+}

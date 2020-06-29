@@ -1,0 +1,32 @@
+package com.rice.wx.api;
+
+import com.rice.wx.entity.dto.${entity}Dto;
+import com.rice.wx.entity.param.${entity}Param;
+import com.rice.wx.entity.vo.${entity}Vo;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import javax.core.common.HttpApi;
+import java.time.LocalDateTime;
+import com.rice.wx.common.BaseVo;
+
+/**
+ * $!{table.comment}api接口
+ * @ author: ${author}
+ * @ date: ${date}
+ **/
+public interface ${entity}Api {
+    /**
+     * 新增或修改
+     */
+    @PostMapping(value = "/api/case/saveOrUpdate", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    HttpApi<Boolean> saveOrUpdate(@RequestBody ${entity}Dto dto);
+    /**
+     * 根据id查询详情
+     * @param param 查询参数
+     */
+    @PostMapping(value = "/api/case/findOne", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    HttpApi<${entity}Vo> findOne(@RequestBody ${entity}Param param);
+
+}

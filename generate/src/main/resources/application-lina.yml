@@ -1,0 +1,70 @@
+base:
+  # 包名
+  packagePath: com.rice
+  # 模块名
+  modelName: wx
+
+################################# 表配置 #######################################
+table:
+  # 需要生成代码的表（不配置时默认为全部表）
+  tableName:
+  # 需要排除的表
+  noTable:
+  # 主键生成策略，UUID/AUTO，必填
+  idType: AUTO
+  # 表前缀
+  tablePrefix:
+  # 逻辑删除字段
+  logicDeleteField:
+
+################################# 类配置 #######################################
+class:
+  # 全局配置
+  config:
+    lombokModel: true
+    restControllerStyle: true
+  # 类路径
+  path:
+    basePath: /src/main/java/
+    entityPath: /model/entity/
+    dtoPath: /model/dto/
+    voPath: /model/vo/
+    pageVoPath: /model/vo/
+    paramPath: /model/param/
+    apiPath: /api/
+    controllerPath: /controller/
+    servicePath: /service/
+    serviceImplPath: /service/impl/
+    daoPath: /dao/
+    mapperPath: /mapper/
+    mapperXmlPath: /xml/
+  # 类后缀
+  suffix:
+    entityName: Entity.java
+    dtoName: Dto.java
+    voName: Vo.java
+    pageVoName: PageVo.java
+    paramName: Param.java
+    apiName: Api.java
+    controllerName: Controller.java
+    serviceName: Service.java
+    serviceImplName: ServiceImpl.java
+    daoName: Dao.java
+    mapperName: Mapper.java
+    mapperXmlName: Mapper.xml
+  # 基类配置
+  baseClass:
+    disable: true
+    superEntity: BaseEntity
+    superController: BaseController
+    superService: BaseService
+  # 实体基类公共属性
+  commonField:
+    disable: true
+    id: id
+    createTime: createTime
+    createUser: createUser
+    updateTime: updateTime
+    updateUser: updateUser
+    delFlag: enableFlag
+

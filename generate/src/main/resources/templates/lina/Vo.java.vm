@@ -1,0 +1,55 @@
+#set($vo = $!{package.Entity})
+#set($vo=$vo.replace("entity","vo"))
+package $!{package.Entity}.vo;
+
+#foreach($pkg in ${table.importPackages})
+#if("${pkg}" == "java.math.BigDecimal")
+import ${pkg};
+    #break
+#end
+#end
+import lombok.Data;
+##import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+import io.swagger.annotations.ApiModelProperty;
+import java.time.LocalDateTime;
+import com.rice.wx.common.BaseVo;
+
+/**
+ * @ $!{table.comment} 视图层
+ * @ author ${author}
+ * @ date ${date}
+ **/
+#if(${entityLombokModel})
+@Data
+###if(${superEntityClass})
+##@EqualsAndHashCode(callSuper = true)
+###else
+##@EqualsAndHashCode(callSuper = false)
+###end
+@Accessors(chain = true)
+#end
+public class ${entity}Vo extends BaseVo{
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
+#if("$!field.propertyName" != "id" && "$!field.propertyName" != "createTime" && "$!field.propertyName" != "createUser" && "$!field.propertyName" != "updateTime" && "$!field.propertyName" != "updateUser" && "$!field.propertyName" != "deleted")
+#if(${field.keyFlag})
+#set($keyPropertyName=${field.propertyName})
+#end
+    #if("$!field.comment" != "")
+
+        #set($comment=${field.comment})
+        #if(${swagger2})
+    @ApiModelProperty(value = "$!comment")
+        #else
+    /**
+     * $!comment
+     */
+        #end
+    #end
+    private ${field.propertyType} ${field.propertyName};
+#end
+#end
+## ----------  END 字段循环遍历  ----------
+
+}

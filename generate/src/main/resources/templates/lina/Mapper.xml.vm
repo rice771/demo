@@ -1,0 +1,79 @@
+#set($dao = $!{package.Entity})
+#set($dao = $dao.replace("entity","mapper"))
+#set($vo = $!{package.Entity})
+#set($vo = $vo.replace("entity","entity.vo"))
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="$dao.${entity}Mapper">
+
+#if(${enableCache})
+    <!-- 开启二级缓存 -->
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+
+#end
+#if(${baseResultMap})
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="${package.Entity}.origin.${entity}">
+#foreach($field in ${table.fields})
+#if(${field.keyFlag})##生成主键排在第一位
+        <id column="${field.name}" property="${field.propertyName}" />
+#end
+#end
+#foreach($field in ${table.commonFields})##生成公共字段
+    <result column="${field.name}" property="${field.propertyName}" />
+#end
+#foreach($field in ${table.fields})
+#if(!${field.keyFlag})##生成普通字段
+        <result column="${field.name}" property="${field.propertyName}" />
+#end
+#end
+    </resultMap>
+
+#end
+#if(${baseColumnList})
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+#foreach($field in ${table.commonFields})
+        ${field.name},
+#end
+        ${table.fieldNames}
+    </sql>
+
+#end
+
+#if(${baseColumnList})
+    <!-- 分页 -->
+    <select id="listPage" resultType="$vo.${entity}Vo">
+      SELECT
+#foreach($field in ${table.fields})
+#if ($table.fields.size() == $velocityCount or $table.fields.size() == $foreach.count)
+        main.${field.name}
+#else
+        main.${field.name},
+#end
+#end
+      FROM
+        ${table.name} main
+      <where>
+          main.DELETED = 0
+      </where>
+        ORDER BY main.CREATE_TIME DESC
+    </select>
+
+    <select id="getInfoById" resultType="$vo.${entity}Vo">
+      SELECT
+#foreach($field in ${table.fields})
+    #if ($table.fields.size() == $velocityCount or $table.fields.size() == $foreach.count)
+        main.${field.name}
+    #else
+        main.${field.name},
+    #end
+#end
+      FROM
+        ${table.name} main
+      WHERE
+        main.ID = #{id}
+    </select>
+
+#end
+</mapper>

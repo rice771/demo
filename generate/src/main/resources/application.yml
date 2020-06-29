@@ -1,0 +1,16 @@
+base:
+  # 文件输出路径
+  fileOutPath: H:\idea_space\代码生成器仓库
+  # 作者
+  author: lina
+  # 模板路径
+  templatePath: templates/lina/
+
+
+spring:
+  profiles:
+    active: lina,mysql
+
+
+server:
+  port: 8999
